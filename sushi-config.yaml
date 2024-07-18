@@ -24,6 +24,11 @@ releaseLabel: draft # ci-build | draft | qa-preview | ballot | trial-use | relea
 # package id and the value is the version (or dev/current). For advanced
 # use cases, the value can be an object with keys for id, uri, and version.
 #
+
+# Work around for broken publication
+dependencies:
+  hl7.terminology.r4: 5.5.0
+
 # dependencies:
 #   fhir.org.nz.ig.base: 
 #     uri: http://fhir.org.nz/ig/base/ImplementationGuide/fhir.org.nz.ig.base
