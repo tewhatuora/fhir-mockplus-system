@@ -7,7 +7,7 @@ id: tewhatuora.fhir.mockplusystem
 canonical: https://fhir-ig.digital.health.nz/mockplus-system
 name: Te Whatu Ora FHIR Mockplus System Implementation Guide
 title: Te Whatu Ora FHIR Mockplus System Implementation Guide
-description: An Implementation Guide for custom operations within Mocklplus
+description: An Implementation Guide for custom operations within Mockplus
 status: draft
 version: 0.0.1
 fhirVersion: 4.0.1

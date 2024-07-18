@@ -1,0 +1,27 @@
+@startuml Mock+
+
+title Mock+ Multi-tenant Solution
+
+actor "Consumer" as client
+
+component "Ingress Control" as cdn
+
+component "Connector Plane" as mule
+
+component "API Gateway" as apiGateway
+
+component "FHIR Works" as server {
+    database "Tenant 1" as tenant1
+    database "Tenant 2" as tenant2
+    database "Tenant 3" as tenant3
+}
+
+client --> cdn
+cdn --> mule
+mule --> apiGateway
+apiGateway --> server
+server --> tenant1
+server --> tenant2
+server --> tenant3
+
+@enduml
