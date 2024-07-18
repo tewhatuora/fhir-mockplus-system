@@ -1,0 +1,11 @@
+.DS_Store
+Thumbs.db
+/fsh-generated
+/input-cache
+/output
+/temp
+/template
+/gofsh
+/out
+/localscripts/node_modules
+/localscripts/package-lock.json
