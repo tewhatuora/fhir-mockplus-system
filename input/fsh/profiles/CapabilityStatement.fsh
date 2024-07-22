@@ -41,18 +41,20 @@ Usage: #definition
 * rest.security.extension[+].url = "http://fhir-registry.smarthealthit.org/StructureDefinition/capabilities"
 * rest.security.extension[=].valueCode = #permission-patient
 
-// Patient resource
-* rest.resource[+].type = #Patient
+// Unused resource to satisfy Sushi rule, this is not used in any way
+// Sushi: error Element CapabilityStatement.rest.resource has minimum cardinality 1 but occurs 0 time(s).
+* rest.resource[+].type = #Endpoint
 
-* rest.resource[=].profile = Canonical(Patient)
-* rest.resource[=].supportedProfile[+] = Canonical(ExamplePatientProfile)
-* rest.resource[=].interaction[+].code = #read
-* rest.resource[=].interaction[+].code = #search-type
-* rest.resource[=].interaction[+].code = #create
-* rest.resource[=].interaction[+].code = #update
-* rest.resource[=].interaction[+].code = #delete
-* rest.resource[=].versioning = #versioned
-* rest.resource[=].searchParam[0].name = "general-practitioner"
-* rest.resource[=].searchParam[=].definition = "http://hl7.org/fhir/SearchParameter/Patient-general-practitioner"
-* rest.resource[=].searchParam[=].type = #reference
-* rest.resource[=].searchParam[=].documentation = "Patient's nominated general practitioner, not the organization that manages the record"
+Instance: SeedAndResetOperation
+InstanceOf: OperationDefinition
+Usage: #definition
+
+* version = "0.1.0"
+* name = "$reset"
+* status = #draft
+* title = "Seed and Reset Operation for Mock+"
+* kind = #operation
+* code = #reset
+* system = false
+* type = false
+* instance = true

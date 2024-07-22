@@ -1,4 +1,7 @@
 #!/bin/bash
+if [ ! -d "../scripts" ]; then
+  mkdir "../scripts"
+fi
 
 pwd
 CONVERTER_DL_URL=$(curl -s https://api.github.com/repos/tewhatuora/fhir-openapi-converter/releases/latest | jq -r '.assets[] | select(.name == "cli.js") | .browser_download_url')

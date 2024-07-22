@@ -4,21 +4,26 @@ title Mock+ Multi-tenant Solution
 
 actor "Consumer" as client
 
+cloud "Internet"
+
 component "Ingress Control" as cdn
 
 component "Connector Plane" as mule
 
-component "API Gateway" as apiGateway
+rectangle "Mock+" {
+    component "API Gateway" as apiGateway
 
-component "FHIR Works" as server {
-    database "Tenant 1" as tenant1
-    database "Tenant 2" as tenant2
-    database "Tenant 3" as tenant3
+    component "FHIR Works" as server {
+        database "Tenant 1" as tenant1
+        database "Tenant 2" as tenant2
+        database "Tenant 3" as tenant3
+    }
 }
 
-client --> cdn
+client --> "Internet"
+"Internet" -r-> cdn
 cdn --> mule
-mule --> apiGateway
+mule -r-> apiGateway
 apiGateway --> server
 server --> tenant1
 server --> tenant2
