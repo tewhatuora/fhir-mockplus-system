@@ -45,6 +45,15 @@ Usage: #definition
 // Sushi: error Element CapabilityStatement.rest.resource has minimum cardinality 1 but occurs 0 time(s).
 * rest.resource[+].type = #Endpoint
 
+// system interactions
+* rest.interaction[+].code = #transaction
+
+// system custom operations
+* rest.operation[+].name = "reset"
+* rest.operation[=].definition = Canonical(SeedAndResetOperation)
+* rest.operation[+].name = "provisionDashboard"
+* rest.operation[=].definition = Canonical(ProvisioninDashboardOperation)
+
 Instance: SeedAndResetOperation
 InstanceOf: OperationDefinition
 Usage: #definition
@@ -55,6 +64,27 @@ Usage: #definition
 * title = "Seed and Reset Operation for Mock+"
 * kind = #operation
 * code = #reset
-* system = false
+* system = true
 * type = false
-* instance = true
+* instance = false
+
+Instance: ProvisioninDashboardOperation
+InstanceOf: OperationDefinition
+Usage: #definition
+
+* version = "0.1.0"
+* name = "$provisionDashboard"
+* status = #draft
+* title = "Developer Self-Provisioning OpenSearch Dashboard"
+* kind = #operation
+* code = #apply
+* system = true
+* type = false
+* instance = false
+
+* parameter[0].name = #email
+* parameter[=].use = #in
+* parameter[=].min = 1
+* parameter[=].max = "1"
+* parameter[=].documentation = "Email for Dashboard Registration, this is not used for credentials."
+* parameter[=].type = #string
