@@ -7,6 +7,10 @@ Usage: #definition
 * kind = #instance
 * fhirVersion = #4.0.1
 * format = #json
+* description = "Example FHIR API"
+* implementation.url = "https://example.digital.health.nz/fhir/R4"
+* implementation.description = "Example FHIR API"
+
 
 // Requried by HnzToolingCapabilityStatement
 * version = "1.1.0"
@@ -41,9 +45,9 @@ Usage: #definition
 * rest.security.extension[+].url = "http://fhir-registry.smarthealthit.org/StructureDefinition/capabilities"
 * rest.security.extension[=].valueCode = #permission-patient
 
-// Unused resource to satisfy Sushi rule, this is not used in any way
-// Sushi: error Element CapabilityStatement.rest.resource has minimum cardinality 1 but occurs 0 time(s).
-* rest.resource[+].type = #Endpoint
+// Add a minimal resource definition
+* rest.resource[+].type = #CapabilityStatement
+* rest.resource[=].interaction[+].code = #read
 
 // system interactions
 * rest.interaction[+].code = #transaction
@@ -68,6 +72,13 @@ Usage: #definition
 * type = false
 * instance = false
 
+* parameter[0].name = #return
+* parameter[=].use = #out
+* parameter[=].min = 1
+* parameter[=].max = "1"
+* parameter[=].documentation = "Result of the reset operation."
+* parameter[=].type = #OperationOutcome
+
 Instance: ProvisioninDashboardOperation
 InstanceOf: OperationDefinition
 Usage: #definition
@@ -88,3 +99,9 @@ Usage: #definition
 * parameter[=].max = "1"
 * parameter[=].documentation = "Email for Dashboard Registration, this is not used for credentials."
 * parameter[=].type = #string
+* parameter[1].name = #return
+* parameter[=].use = #out
+* parameter[=].min = 1
+* parameter[=].max = "1"
+* parameter[=].documentation = "Result of the provisioning operation."
+* parameter[=].type = #OperationOutcome
