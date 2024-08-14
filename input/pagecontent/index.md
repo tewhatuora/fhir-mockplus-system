@@ -20,3 +20,7 @@ The reset operation allows for new tenants to be seeded, and subsequently re-see
 Kibana Dashboard for ad-hoc queries of the clients tenant. The underlying data in OpenSearch is also loaded and refreshed when the _Reset_ operation is triggered.
 
 **Required Scope** : system/*.crus
+
+## Postman Smoke Test Collection
+
+[MockPlus-Smoke-Test.postman_collection](MockPlus-Smoke-Test.postman_collection)
