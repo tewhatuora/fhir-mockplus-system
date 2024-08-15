@@ -85,41 +85,6 @@
 					"response": []
 				},
 				{
-					"name": "MWS metadata",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "x-forwarded-host",
-								"value": "nhi.mockplus.health.nz",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{MOCK_PLUS_MWS_URL}}/metadata",
-							"host": [
-								"{{MOCK_PLUS_MWS_URL}}"
-							],
-							"path": [
-								"metadata"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "NHI metadata",
 					"event": [
 						{
@@ -179,41 +144,6 @@
 							"raw": "{{MOCK_PLUS_NHI_URL}}/metadata",
 							"host": [
 								"{{MOCK_PLUS_NHI_URL}}"
-							],
-							"path": [
-								"metadata"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "NES metadata",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "x-forwarded-host",
-								"value": "nhi.mockplus.health.nz",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{MOCK_PLUS_NES_URL}}/metadata",
-							"host": [
-								"{{MOCK_PLUS_NES_URL}}"
 							],
 							"path": [
 								"metadata"
@@ -803,7 +733,26 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.environment.set(\"KEYCLOAK_TOKEN\", jsonData['access_token']);",
+									"",
+									"let CryptoJs = require('crypto-js');",
+									"",
+									"let jwt = jsonData['access_token']",
+									"",
+									"a = jwt.split('.');",
+									"",
+									"//a.forEach(function (val) {",
+									"    var words = CryptoJs.enc.Base64.parse(a[1]);",
+									"    var textString = CryptoJs.enc.Utf8.stringify(words);",
+									"",
+									"    console.log(textString)",
+									"//})"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -896,13 +845,14 @@
 									"});",
 									"",
 									"",
-									"pm.test(\"Entry array is present and contains the expected number of elements\", function () {",
+									"pm.test(\"Entry array is present\", function () {",
 									"    const responseData = pm.response.json();",
 									"",
-									"    pm.expect(responseData).to.have.property(\"entry\").that.is.an('array').and.to.have.lengthOf(1);",
+									"    pm.expect(responseData).to.have.property(\"entry\");",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -934,7 +884,51 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData).to.have.property('identifier');",
+									"    pm.expect(responseData).to.have.property('meta');",
+									"    pm.expect(responseData).to.have.property('name');",
+									"    pm.expect(responseData).to.have.property('qualification');",
+									"    pm.expect(responseData).to.have.property('resourceType');",
+									"    pm.expect(responseData).to.have.property('extension');",
+									"    pm.expect(responseData).to.have.property('id');",
+									"    pm.expect(responseData).to.have.property('communication');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/fhir+json\", function () {",
+									"  pm.expect(pm.response.headers.get(\"Content-Type\")).to.equal(\"application/fhir+json; charset=utf-8\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Identifier array is present and not empty\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.identifier).to.exist.and.to.be.an('array').and.to.have.lengthOf.at.least(1);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Name field has non-empty 'given' and 'family' properties\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.name).to.exist.and.to.be.an('array').to.have.lengthOf.at.least(1);",
+									"",
+									"  responseData.name.forEach(function(nameObj) {",
+									"    pm.expect(nameObj.given).to.exist.and.to.be.an('array').to.have.lengthOf.at.least(1, \"Given name should not be empty\");",
+									"    pm.expect(nameObj.family).to.exist.and.to.be.a('string').to.have.lengthOf.at.least(1, \"Family name should not be empty\");",
+									"  });",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}

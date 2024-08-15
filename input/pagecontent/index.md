@@ -1,13 +1,19 @@
 # Mock+ System
 
-The Mock+ custom system operations are FHIR compliant interfaces to allow a client to seed or reset their tenants data, and provisioning the Kibana dashboard for their tenant.
+The Mock+ custom system operations are FHIR compliant interfaces to allow a client to seed or reset their tenants data, and provision the Kibana dashboard for their tenant.
 
-Once on-boarded as a consumer, and issued with a Client ID, this client ID is your tenant. This is embedded in the access token and used by Mock+ to route requests to the correct tenant.
+> The Kibana dashboard is a unique feature of Mock+ and not available in other non-production environments.
 
 <div width="70%">
 <!-- Generated from `input/images-source/mockplus-overview.plantuml` -->
 {% include mockplus-overview.svg %}
 </div>
+
+To be onboarded with a Mock+, follow the onboarding process at [https://www.tewhatuora.govt.nz/health-services-and-programmes/digital-health/digital-services-hub](https://www.tewhatuora.govt.nz/health-services-and-programmes/digital-health/digital-services-hub).
+
+Once on-boarded as a consumer, and issued with a Client ID, this client ID is your tenant. This is embedded in your access token and used by Mock+ to route requests to the correct tenant.
+
+The following system operations are limited to your tenant.
 
 ## Reset
 
@@ -24,3 +30,7 @@ Kibana Dashboard for ad-hoc queries of the clients tenant. The underlying data i
 ## Postman Smoke Test Collection
 
 [MockPlus-Smoke-Test.postman_collection](MockPlus-Smoke-Test.postman_collection)
+
+### Postman Configuration
+
+(<< todo sanitised properaites file >>)
