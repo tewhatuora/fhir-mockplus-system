@@ -1,4 +1,7 @@
-# Mock+ System
+---
+layout: default
+title: Mock+ System
+---
 
 The Mock+ custom system operations are FHIR compliant interfaces to allow a client to seed or reset their tenants data, and provision the Kibana dashboard for their tenant.
 
@@ -21,38 +24,12 @@ The reset operation allows for new tenants to be seeded, and subsequently re-see
 
 **Required Scope** : system/*.crus
 
+See [Postman Collection](/collection.html) for user guidance.
+
 ## Dashboard Self-provisioning
 
 Kibana Dashboard for ad-hoc queries of the clients tenant. The underlying data in OpenSearch is also loaded and refreshed when the _Reset_ operation is triggered.
 
 **Required Scope** : system/*.crus
 
-## Postman Smoke Test Collection
-
-Run this collection to
-
-- reset the tenant
-- create the developer dashboard
-- probe public metadata
-- authenticate and retrieve data from each API
-
-[MockPlus-Smoke-Test.postman_collection](MockPlus-Smoke-Test.postman_collection)
-
-### Postman Configuration
-
-This environment contains non-sensitive variables only. Set the following global variables with your application credentials
-
-- KC_CLIENT_ID
-- KC_CLIENT_SECRET
-
-[MockPlus-Smoke-Test.postman_collection](MockPlus-Smoke-Test.postman_collection)
-
-![alt text](postman-collection-run.png "Postman Collection Run")
-
-### Newman Collection Run
-
-To execute the run using newman, set your credentials as session variables.
-
-    newman run MockPlus-Smoke-Test.postman_collection -e Mockplus.postman_environment --global-var "KC_CLIENT_ID=$KC_CLIENT_ID" --global-var "KC_CLIENT_SECRET=$KC_CLIENT_SECRET"
-
-![alt text](newman-collection-run.png "newman Collection Run")
+See [Developer Dashboard](/dashboard.html) for user guidance.
