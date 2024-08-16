@@ -3,8 +3,6 @@ layout: default
 title: Postman Collection
 ---
 
-## Postman Smoke Test Collection
-
 Run this collection to
 
 - reset the tenant
