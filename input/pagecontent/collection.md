@@ -19,7 +19,7 @@ This environment contains non-sensitive variables only. Set the following global
 - KC_CLIENT_ID
 - KC_CLIENT_SECRET
 
-[MockPlus-Smoke-Test.postman_collection](MockPlus-Smoke-Test.postman_collection)
+[Mockplus.postman_environment](Mockplus.postman_environment)
 
 ![alt text](postman-collection-run.png "Postman Collection Run")
 
