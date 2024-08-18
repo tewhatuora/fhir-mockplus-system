@@ -11,39 +11,39 @@ Obtain Keycloak access_token (authenticate as tenant)
 
 Client ID scope required is `system/*.crus`
 
-![alt text](image-20240719-013419.png "Retrieve Access Token")
+<img src="image-20240719-013419.png" width="100%">
 
 Call Provision Dashboard
 
-![alt text](image-20240719-013448.png "Provision Dashboard")
+<img src="image-20240719-013448.png" width="100%">
 
 Login OpenSearch
 
-![alt text](image-20240719-013515.png "Login OpenSearch")
+<img src="image-20240719-013515.png" width="100%">
 
 Change Password
 
-![alt text](image-20240719-013531.png "Change Password")
+<img src="image-20240719-013531.png" width="100%">
 
 ### Tenant
 
 Confirm global tenant
 
-![alt text](image-20240717-032453.png "global tenant")
+<img src="image-20240717-032453.png" width="100%">
 
 Select Explore on my own
 
-![alt text](image-20240717-032505.png "Explore on my own")
+<img src="image-20240717-032505.png" width="100%">
 
 ### Initialise Dashboard
 
 Discovery Dashboard will not appear before any index-pattern are created
 
-![alt text](image-20240719-014510.png "Explore on my own")
+<img src="image-20240719-014510.png" width="100%">
 
 Open Management/Overview, select Dashboards management, and then Index patterns
 
-![alt text](image-20240717-032530.png "Explore on my own")
+<img src="image-20240717-032530.png" width="100%">
 
 Special case Index-patterns
 
@@ -55,16 +55,16 @@ This can be achieved via switching to the Private tenant and back to Global tena
 
 Reset (and seed) data
 
-![alt text](image-20240717-032542.png "Reset (and seed) data")
+<img src="image-20240717-032542.png" width="100%">
 
 Refresh the OpenSearch Dashboard via switching tenants and back
 
-![alt text](image-20240717-032556.png "switching tenants")
+<img src="image-20240717-032556.png" width="100%">
 
-![alt text](image-20240717-032602.png "after switching tenants")
+<img src="image-20240717-032602.png" width="100%">
 
-![alt text](image-20240717-032609.png "switch back")
+<img src="image-20240717-032609.png" width="100%">
 
 Now the index-patterns are visible
 
-![alt text](image-20240717-032632.png "index visible")
+<img src="image-20240717-032632.png" width="100%">
