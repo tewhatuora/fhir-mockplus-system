@@ -24,7 +24,7 @@ The reset operation allows for new tenants to be seeded, and subsequently re-see
 
 **Required Scope** : system/*.crus
 
-See Postman Collection menu item for user guidance.
+See [Postman Collection](collection.html) for user guidance.
 
 ## Dashboard Self-provisioning
 
@@ -32,4 +32,4 @@ Kibana Dashboard for ad-hoc queries of the clients tenant. The underlying data i
 
 **Required Scope** : system/*.crus
 
-See Developer Dashboard menu item for user guidance.
+See [Developer Dashboard](dashboard.html) for user guidance.
