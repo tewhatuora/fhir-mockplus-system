@@ -9,9 +9,11 @@ Mock+ is a mult-tenant solution that provides a developer specific sandbox envir
 
 ### System Operations
 
+The following system operations are unique to Mock+ and cannot be used in downstream non-production (or production) environments.
+
 The Mock+ custom system operations are FHIR compliant interfaces to allow a client to seed or reset their tenants data, and provision the Kibana dashboard for their tenant.
 
-> The Kibana dashboard is a unique feature of Mock+ and not available in other non-production environments.
+> The Kibana dashboard is a unique user interface feature of Mock+, and is also not available in other environments.
 
 To be onboarded with a Mock+, follow the onboarding process at [https://www.tewhatuora.govt.nz/health-services-and-programmes/digital-health/digital-services-hub](https://www.tewhatuora.govt.nz/health-services-and-programmes/digital-health/digital-services-hub).
 
