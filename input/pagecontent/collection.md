@@ -3,6 +3,10 @@ layout: default
 title: Postman Collection
 ---
 
+Each application (client id/secret) has it's own tenant. All REST access to the client tenant is via the Digital Services Hub _Connector Plane_.
+
+![alt text](mockplus-overview.svg "Generated from input/images-source/mockplus-overview.plantuml"){: width="100%" }
+
 Run this collection to
 
 - reset the tenant
