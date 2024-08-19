@@ -1,4 +1,4 @@
-Instance: HiraCapabilityStatement
+Instance: AssistanceCapabilityStatement
 InstanceOf: HnzToolingCapabilityStatement
 Usage: #definition
 

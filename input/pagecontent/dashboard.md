@@ -5,11 +5,9 @@ title: Developer Dashboard
 
 OpenSearch is an open-sourced tool used by Mock+ to provide API consumers with a view of their activity to support design and development activity.
 
-![alt text](Mockplus-Developer-Dashboard.png "Mock+ Developer Dashboard"){: width="70%" }
+![alt text](Mockplus-Developer-Dashboard.png "Mock+ Developer Dashboard"){: width="100%" }
 
 Obtain Keycloak access_token (authenticate as tenant)
-
----
 
 ### Required Scope
 

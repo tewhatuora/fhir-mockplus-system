@@ -5,9 +5,7 @@ title: Mock+ System
 
 Mock+ is a mult-tenant solution that provides a developer specific sandbox environment. The Developer can perform systm-to-system authentication, in the persona of a _Sector Application_, e.g. a Patient Management System (PMS).
 
-![alt text](Mockplus-Overview.png "Mock+ Developer Sandbox"){: width="70%" }
-
----
+![alt text](Mockplus-Overview.png "Mock+ Developer Sandbox"){: width="100%" }
 
 ### System Operations
 
