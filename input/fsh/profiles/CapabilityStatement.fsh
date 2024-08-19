@@ -1,4 +1,4 @@
-Instance: AssistanceCapabilityStatement
+Instance: MockplusCapabilityStatement
 InstanceOf: HnzToolingCapabilityStatement
 Usage: #definition
 
