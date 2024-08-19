@@ -9,6 +9,8 @@ OpenSearch is an open-sourced tool used by Mock+ to provide API consumers with a
 
 Obtain Keycloak access_token (authenticate as tenant)
 
+---
+
 ### Required Scope
 
 Client ID scope required is `system/*.crus`

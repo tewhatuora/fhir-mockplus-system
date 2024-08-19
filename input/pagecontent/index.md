@@ -7,6 +7,8 @@ Mock+ is a mult-tenant solution that provides a developer specific sandbox envir
 
 ![alt text](Mockplus-Overview.png "Mock+ Developer Sandbox"){: width="70%" }
 
+---
+
 ### System Operations
 
 The following system operations are unique to Mock+ and cannot be used in downstream non-production (or production) environments.
