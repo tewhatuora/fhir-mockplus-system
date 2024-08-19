@@ -1,4 +1,4 @@
-Instance: HiraCapabilityStatement
+Instance: MockplusCapabilityStatement
 InstanceOf: HnzToolingCapabilityStatement
 Usage: #definition
 

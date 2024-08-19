@@ -3,6 +3,14 @@ layout: default
 title: Postman Collection
 ---
 
+Each application (client id/secret) has it's own tenant. All REST access to the client tenant is via the Digital Services Hub _Connector Plane_.
+
+<!-- markdownlint-disable MD033 -->
+<div width="70%">
+<!-- Generated from `input/images-source/mockplus-overview.plantuml` -->
+{% include mockplus-overview.svg %}
+</div>
+
 Run this collection to
 
 - reset the tenant
@@ -21,7 +29,7 @@ This environment contains non-sensitive variables only. Set the following global
 
 [Mockplus.postman_environment](Mockplus.postman_environment)
 
-![alt text](postman-collection-run.png "Postman Collection Run")
+![alt text](postman-collection-run.png "Postman Collection Run"){: width="100%" }
 
 ### Newman Collection Run
 
