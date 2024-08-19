@@ -70,3 +70,5 @@ Refresh the OpenSearch Dashboard via switching tenants and back
 Now the index-patterns are visible
 
 ![alt text](image-20240717-032632.png "index visible"){: width="100%" }
+
+See [Create and Reset data](reset.html)
