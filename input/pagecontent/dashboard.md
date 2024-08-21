@@ -59,7 +59,11 @@ Reset (and seed) data
 
 ![alt text](image-20240717-032542.png "Reset (and seed) data"){: width="100%" }
 
-Refresh the OpenSearch Dashboard via switching tenants and back
+Refresh the OpenSearch Dashboard via switching tenants and back. From the user options, select Switch tenants.
+
+![alt text](image-20240821-200013.png "User select"){: width="100%" }
+
+Select the Private tenant and confirm, then switch back to Global.
 
 ![alt text](image-20240717-032556.png "switching tenants"){: width="100%" }
 
