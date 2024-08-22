@@ -88,6 +88,7 @@ menu:
   Home: index.html
   Postman Collection: collection.html
   Developer Dashboard: dashboard.html
+  Reset Tenant: reset.html
   Artifacts: artifacts.html
 
 # ╭───────────────────────────Less Common Implementation Guide Properties──────────────────────────╮
