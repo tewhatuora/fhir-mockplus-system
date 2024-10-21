@@ -54,18 +54,20 @@ Usage: #definition
 
 // system custom operations
 * rest.operation[+].name = "reset"
-* rest.operation[=].definition = Canonical(SeedAndResetOperation)
+* rest.operation[=].definition = Canonical(ClearOperation)
+* rest.operation[+].name = "seed"
+* rest.operation[=].definition = Canonical(SeedOperation)
 * rest.operation[+].name = "provisionDashboard"
 * rest.operation[=].definition = Canonical(ProvisioninDashboardOperation)
 
-Instance: SeedAndResetOperation
+Instance: ClearOperation
 InstanceOf: OperationDefinition
 Usage: #definition
 
-* version = "0.1.0"
+* version = "0.2.0"
 * name = "$reset"
 * status = #draft
-* title = "Seed and Reset Operation for Mock+"
+* title = "Clear Operation for Mock+"
 * kind = #operation
 * code = #reset
 * system = true
@@ -77,6 +79,27 @@ Usage: #definition
 * parameter[=].min = 1
 * parameter[=].max = "1"
 * parameter[=].documentation = "Result of the reset operation."
+* parameter[=].type = #OperationOutcome
+
+Instance: SeedOperation
+InstanceOf: OperationDefinition
+Usage: #definition
+
+* version = "0.2.0"
+* name = "$seed"
+* status = #draft
+* title = "Seed Operation for Mock+"
+* kind = #operation
+* code = #seed
+* system = true
+* type = false
+* instance = false
+
+* parameter[0].name = #return
+* parameter[=].use = #out
+* parameter[=].min = 1
+* parameter[=].max = "1"
+* parameter[=].documentation = "Result of the seed operation."
 * parameter[=].type = #OperationOutcome
 
 Instance: ProvisioninDashboardOperation
