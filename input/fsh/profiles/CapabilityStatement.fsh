@@ -13,7 +13,7 @@ Usage: #definition
 
 
 // Required by HnzToolingCapabilityStatement
-* version = "1.1.0"
+* version = "0.1.3"
 
 * contact.name = "Example Contact Details"
 * contact.telecom.value = "https://example.com"
