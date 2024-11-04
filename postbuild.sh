@@ -17,6 +17,11 @@ if [ $result -ne 0 ]; then
   exit $result
 fi
 
+oas_replace='MockplusCapabilityStatement.openapi'
 yaml_file=$(echo oas/*.yaml)
-echo "Copying OpenAPI specification to output/openapi.yaml"
-cp $yaml_file output/openapi.yaml
+echo "Copying OpenAPI specification to output/${oas_replace}.yaml"
+cp $yaml_file output/${oas_replace}.yaml
+
+json_file=$(echo oas/*.json)
+echo "Copying OpenAPI specification to output/${oas_replace}.JSON"
+cp $json_file output/${oas_replace}.json
