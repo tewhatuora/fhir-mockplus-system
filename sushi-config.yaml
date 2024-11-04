@@ -9,7 +9,7 @@ name: Health NZ | Te Whatu Ora FHIR Mockplus System Implementation Guide
 title: Health NZ | Te Whatu Ora FHIR Mockplus System Implementation Guide
 description: System Operations for Mockplus
 status: draft
-version: 0.0.3
+version: 0.0.4
 fhirVersion: 4.0.1
 copyrightYear: 2024+
 releaseLabel: draft # ci-build | draft | qa-preview | ballot | trial-use | release | update | normative+trial-use
