@@ -301,7 +301,7 @@
 								"type": "text"
 							},
 							{
-								"key": "x-correlation-id",
+								"key": "X-Correlation-Id",
 								"value": "XDRTREFYTEDFS-1",
 								"type": "text"
 							}
