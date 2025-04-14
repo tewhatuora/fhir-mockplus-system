@@ -5,11 +5,11 @@
 # ╰────────────────────────────────────────────────────────────────────────────────────────────────╯
 id: tewhatuora.fhir.mockplusystem
 canonical: https://fhir-ig.digital.health.nz/mockplus-system
-name: Te Whatu Ora FHIR Mockplus System Implementation Guide
-title: Te Whatu Ora FHIR Mockplus System Implementation Guide
-description: An Implementation Guide for custom operations within Mockplus
+name: Health NZ | Te Whatu Ora FHIR Mockplus System Implementation Guide
+title: Health NZ | Te Whatu Ora FHIR Mockplus System Implementation Guide
+description: System Operations for Mockplus
 status: draft
-version: 0.0.1
+version: 0.0.4
 fhirVersion: 4.0.1
 copyrightYear: 2024+
 releaseLabel: draft # ci-build | draft | qa-preview | ballot | trial-use | release | update | normative+trial-use
@@ -28,7 +28,7 @@ releaseLabel: draft # ci-build | draft | qa-preview | ballot | trial-use | relea
 # Work around for broken publication
 dependencies:
   hl7.terminology.r4: 5.5.0
-  tewhatuora.digitaltooling: 0.0.6
+  tewhatuora.digitaltooling: 0.0.11
 
 # dependencies:
 #   fhir.org.nz.ig.base: 
@@ -86,6 +86,9 @@ parameters:
 # ╰────────────────────────────────────────────────────────────────────────────────────────────────╯
 menu:
   Home: index.html
+  Postman Collection: collection.html
+  Developer Dashboard: dashboard.html
+  Reset Tenant: reset.html
   Artifacts: artifacts.html
 
 # ╭───────────────────────────Less Common Implementation Guide Properties──────────────────────────╮

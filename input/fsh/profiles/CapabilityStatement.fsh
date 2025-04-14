@@ -1,4 +1,4 @@
-Instance: HiraCapabilityStatement
+Instance: MockplusCapabilityStatement
 InstanceOf: HnzToolingCapabilityStatement
 Usage: #definition
 
@@ -7,21 +7,21 @@ Usage: #definition
 * kind = #instance
 * fhirVersion = #4.0.1
 * format = #json
-* description = "Example FHIR API"
-* implementation.url = "https://example.digital.health.nz/fhir/R4"
-* implementation.description = "Example FHIR API"
+* description = "Mock+ System Operations"
+* implementation.url = "https://fhir-ig.digital.health.nz/mockplus-system"
+* implementation.description = "Support for Operations that are unique to Mock+"
 
 
-// Requried by HnzToolingCapabilityStatement
-* version = "1.1.0"
+// Required by HnzToolingCapabilityStatement
+* version = "0.1.5"
 
 * contact.name = "Example Contact Details"
 * contact.telecom.value = "https://example.com"
 * contact.telecom.system = #url
 
 * extension[HnzApiSpecBuilderExtension].extension[globalHeaders].extension[+].url = Canonical(HnzCustomHeadersExtension)
-* extension[HnzApiSpecBuilderExtension].extension[globalHeaders].extension[=].extension[key].valueString = "Correlation-Id"
-* extension[HnzApiSpecBuilderExtension].extension[globalHeaders].extension[=].extension[value].valueUri = "https://raw.githubusercontent.com/tewhatuora/schemas/main/fhir-definitions-oas/uuid-definition.json"
+* extension[HnzApiSpecBuilderExtension].extension[globalHeaders].extension[=].extension[key].valueString = "X-Correlation-Id"
+* extension[HnzApiSpecBuilderExtension].extension[globalHeaders].extension[=].extension[value].valueUri = "https://raw.githubusercontent.com/tewhatuora/schemas/main/fhir-definitions-oas/id-definition.json"
 * extension[HnzApiSpecBuilderExtension].extension[globalHeaders].extension[=].extension[required].valueBoolean = true
 * extension[HnzApiSpecBuilderExtension].extension[licenseURL].valueUri = "https://example.license.org"
 * extension[HnzApiSpecBuilderExtension].extension[licenseName].valueString = "GPLv3"
@@ -54,18 +54,20 @@ Usage: #definition
 
 // system custom operations
 * rest.operation[+].name = "reset"
-* rest.operation[=].definition = Canonical(SeedAndResetOperation)
+* rest.operation[=].definition = Canonical(ClearOperation)
+* rest.operation[+].name = "seed"
+* rest.operation[=].definition = Canonical(SeedOperation)
 * rest.operation[+].name = "provisionDashboard"
 * rest.operation[=].definition = Canonical(ProvisioninDashboardOperation)
 
-Instance: SeedAndResetOperation
+Instance: ClearOperation
 InstanceOf: OperationDefinition
 Usage: #definition
 
-* version = "0.1.0"
+* version = "0.2.0"
 * name = "$reset"
 * status = #draft
-* title = "Seed and Reset Operation for Mock+"
+* title = "Clear Operation for Mock+"
 * kind = #operation
 * code = #reset
 * system = true
@@ -77,6 +79,27 @@ Usage: #definition
 * parameter[=].min = 1
 * parameter[=].max = "1"
 * parameter[=].documentation = "Result of the reset operation."
+* parameter[=].type = #OperationOutcome
+
+Instance: SeedOperation
+InstanceOf: OperationDefinition
+Usage: #definition
+
+* version = "0.2.0"
+* name = "$seed"
+* status = #draft
+* title = "Seed Operation for Mock+"
+* kind = #operation
+* code = #seed
+* system = true
+* type = false
+* instance = false
+
+* parameter[0].name = #return
+* parameter[=].use = #out
+* parameter[=].min = 1
+* parameter[=].max = "1"
+* parameter[=].documentation = "Result of the seed operation."
 * parameter[=].type = #OperationOutcome
 
 Instance: ProvisioninDashboardOperation

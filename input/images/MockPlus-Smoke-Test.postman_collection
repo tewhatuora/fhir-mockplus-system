@@ -1,0 +1,1650 @@
+{
+	"info": {
+		"_postman_id": "f2b7b120-c815-4724-a896-ecbf7c082086",
+		"name": "Mock Plus Smoke Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34612325"
+	},
+	"item": [
+		{
+			"name": "Public",
+			"item": [
+				{
+					"name": "mockplus metadata",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/fhir+json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/fhir+json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.resourceType).to.exist;",
+									"    pm.expect(responseData.name).to.exist;",
+									"    pm.expect(responseData.title).to.exist;",
+									"    pm.expect(responseData.description).to.exist;",
+									"    pm.expect(responseData.purpose).to.exist;",
+									"    pm.expect(responseData.status).to.exist;",
+									"    pm.expect(responseData.date).to.exist;",
+									"    pm.expect(responseData.publisher).to.exist;",
+									"    pm.expect(responseData.kind).to.exist;",
+									"    pm.expect(responseData.fhirVersion).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Rest array is present and contains expected number of elements\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.rest).to.exist.and.to.be.an('array').with.length(1);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Software object has non-empty name and version properties\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.software.name).to.exist.and.to.have.lengthOf.at.least(1, \"Name should not be empty\");",
+									"  pm.expect(responseData.software.version).to.exist.and.to.have.lengthOf.at.least(1, \"Version should not be empty\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-forwarded-host",
+								"value": "nhi.mockplus.health.nz",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MOCK_PLUS_SYS_URL}}/metadata",
+							"host": [
+								"{{MOCK_PLUS_SYS_URL}}"
+							],
+							"path": [
+								"metadata"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NHI metadata",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/fhir+json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/fhir+json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData).to.include.all.keys('resourceType', 'name', 'title', 'description', 'purpose', 'status', 'date', 'publisher', 'kind', 'fhirVersion');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Software object should have name and version\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.software).to.be.an('object');",
+									"    pm.expect(responseData.software.name).to.exist;",
+									"    pm.expect(responseData.software.version).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the implementation object - description and url are present\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData.implementation).to.be.an('object');",
+									"  pm.expect(responseData.implementation.description).to.exist;",
+									"  pm.expect(responseData.implementation.url).to.exist;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-forwarded-host",
+								"value": "nhi.mockplus.health.nz",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MOCK_PLUS_NHI_URL}}/metadata",
+							"host": [
+								"{{MOCK_PLUS_NHI_URL}}"
+							],
+							"path": [
+								"metadata"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Keycloak Administrator",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.globals.set(\"KEYCLOAK_TOKEN\", jsonData['access_token']);",
+									"let CryptoJs = require('crypto-js');",
+									"",
+									"let jwt = jsonData['access_token']",
+									"",
+									"a = jwt.split('.');",
+									"",
+									"//a.forEach(function (val) {",
+									"    var words = CryptoJs.enc.Base64.parse(a[1]);",
+									"    var textString = CryptoJs.enc.Utf8.stringify(words);",
+									"",
+									"    console.log(textString)",
+									"//})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{KC_CLIENT_ID}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{KC_CLIENT_SECRET}}",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "system/*.crus",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{AUTH_URL}}/realms/hnz-integration/protocol/openid-connect/token",
+							"host": [
+								"{{AUTH_URL}}"
+							],
+							"path": [
+								"realms",
+								"hnz-integration",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content type is application/fhir+json\", function () {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/fhir+json');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the structure of the issue object\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.issue).to.be.an('array').that.is.not.empty;",
+									"    ",
+									"    responseData.issue.forEach(function (item) {",
+									"        pm.expect(item).to.be.an('object');",
+									"        pm.expect(item.severity).to.be.a('string');",
+									"        pm.expect(item.code).to.be.a('string');",
+									"        pm.expect(item.details).to.be.an('object');",
+									"        pm.expect(item.details.text).to.be.a('string');",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Severity is in a valid format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.issue[0].severity).to.be.a('string');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Code is a non-empty string\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.issue[0].code).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Code should not be empty\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-forwarded-host",
+								"value": "nhi.mockplus.health.nz",
+								"type": "text"
+							},
+							{
+								"key": "x-request-id",
+								"value": "jules-1",
+								"type": "text"
+							},
+							{
+								"key": "X-Correlation-Id",
+								"value": "XDRTREFYTEDFS-1",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MOCK_PLUS_SYS_URL}}/$reset",
+							"host": [
+								"{{MOCK_PLUS_SYS_URL}}"
+							],
+							"path": [
+								"$reset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Visualisation - provisionDashboard",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/fhir+json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/fhir+json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response contains the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.kibanaDashboardUrl).to.exist;",
+									"    pm.expect(responseData.kibanaUser).to.exist;",
+									"    pm.expect(responseData.kibanaPassword).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"KibanaDashboardUrl, KibanaUser, and KibanaPassword are non-empty strings\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.kibanaDashboardUrl).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"  pm.expect(responseData.kibanaUser).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"  pm.expect(responseData.kibanaPassword).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"KibanaDashboardUrl is a valid URL\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.kibanaDashboardUrl).to.match(/^http(s)?:\\/\\/[a-zA-Z0-9-\\.]+\\.[a-z]{2,}(:[0-9]{2,5})?(\\/.*)?$/);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-forwarded-host",
+								"value": "api.test.mockplus.digital.health.nz"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\" : \"b20b25a0-5084-4c23-be44-882d298a8107@middleware.co.nz\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MOCK_PLUS_SYS_URL}}/$provisionDashboard",
+							"host": [
+								"{{MOCK_PLUS_SYS_URL}}"
+							],
+							"path": [
+								"$provisionDashboard"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Immunization Read Only",
+			"item": [
+				{
+					"name": "Keycloak Immunization Read & Search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(pm.response.text());",
+									"",
+									"pm.globals.set(\"KEYCLOAK_TOKEN\", jsonData['access_token']);",
+									"",
+									"let CryptoJs = require('crypto-js');",
+									"",
+									"let jwt = jsonData['access_token']",
+									"",
+									"a = jwt.split('.');",
+									"",
+									"//a.forEach(function (val) {",
+									"    var words = CryptoJs.enc.Base64.parse(a[1]);",
+									"    var textString = CryptoJs.enc.Utf8.stringify(words);",
+									"",
+									"    console.log(textString)",
+									"//})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{KC_CLIENT_ID}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{KC_CLIENT_SECRET}}",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "system/Immunization.r system/Immunization.s",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{AUTH_URL}}/realms/hnz-integration/protocol/openid-connect/token",
+							"host": [
+								"{{AUTH_URL}}"
+							],
+							"path": [
+								"realms",
+								"hnz-integration",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AIR Immunization Search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type is application/fhir+json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/fhir+json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData).to.have.property('resourceType');",
+									"    pm.expect(responseData).to.have.property('id');",
+									"    pm.expect(responseData).to.have.property('meta');",
+									"    pm.expect(responseData).to.have.property('type');",
+									"    pm.expect(responseData).to.have.property('total');",
+									"    pm.expect(responseData).to.have.property('link');",
+									"    pm.expect(responseData).to.have.property('entry');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Meta lastUpdated is in a valid date format\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.meta).to.exist;",
+									"  pm.expect(responseData.meta.lastUpdated).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Entry array is present and contains the expected number of elements\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.entry).to.be.an('array');",
+									"    pm.expect(responseData.entry).to.have.lengthOf(0);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-forwarded-host",
+								"value": "air.mockplus.health.nz",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "patient",
+									"value": "ZZZ0016",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{MOCK_PLUS_AIR_URL}}/Immunization/_search",
+							"host": [
+								"{{MOCK_PLUS_AIR_URL}}"
+							],
+							"path": [
+								"Immunization",
+								"_search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Keycloak Immunization Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(pm.response.text());",
+									"",
+									"pm.globals.set(\"KEYCLOAK_TOKEN\", jsonData['access_token']);",
+									"",
+									"let CryptoJs = require('crypto-js');",
+									"",
+									"let jwt = jsonData['access_token']",
+									"",
+									"a = jwt.split('.');",
+									"",
+									"//a.forEach(function (val) {",
+									"    var words = CryptoJs.enc.Base64.parse(a[1]);",
+									"    var textString = CryptoJs.enc.Utf8.stringify(words);",
+									"",
+									"    console.log(textString)",
+									"//})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{KC_CLIENT_ID}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{KC_CLIENT_SECRET}}",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "system/Immunization.c",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{AUTH_URL}}/realms/hnz-integration/protocol/openid-connect/token",
+							"host": [
+								"{{AUTH_URL}}"
+							],
+							"path": [
+								"realms",
+								"hnz-integration",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Medical Warning System",
+			"item": [
+				{
+					"name": "Keycloak AllergyIntolerance Read & Search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.globals.set(\"KEYCLOAK_TOKEN\", jsonData['access_token']);",
+									"",
+									"let CryptoJs = require('crypto-js');",
+									"",
+									"let jwt = jsonData['access_token']",
+									"",
+									"a = jwt.split('.');",
+									"",
+									"//a.forEach(function (val) {",
+									"    var words = CryptoJs.enc.Base64.parse(a[1]);",
+									"    var textString = CryptoJs.enc.Utf8.stringify(words);",
+									"",
+									"    console.log(textString)",
+									"//})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{KC_CLIENT_ID}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{KC_CLIENT_SECRET}}",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "system/AllergyIntolerance.r system/AllergyIntolerance.s",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{AUTH_URL}}/realms/hnz-integration/protocol/openid-connect/token",
+							"host": [
+								"{{AUTH_URL}}"
+							],
+							"path": [
+								"realms",
+								"hnz-integration",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AllergyIntolerance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content type is application/fhir+json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/fhir+json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the structure of the response\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.resourceType).to.exist;",
+									"    pm.expect(responseData.id).to.exist;",
+									"    pm.expect(responseData.meta).to.exist.and.to.be.an('object');",
+									"    pm.expect(responseData.type).to.exist;",
+									"    pm.expect(responseData.total).to.exist;",
+									"    pm.expect(responseData.link).to.exist.and.to.be.an('array');",
+									"    pm.expect(responseData.entry).to.exist.and.to.be.an('array');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Meta object contains a valid lastUpdated field\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.meta).to.exist;",
+									"    pm.expect(responseData.meta.lastUpdated).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Entry array is present and is not empty\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.entry).to.exist.and.to.be.an('array').that.not.empty;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-forwarded-host",
+								"value": "mws.mockplus.health.nz",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MOCK_PLUS_MWS_URL}}/AllergyIntolerance",
+							"host": [
+								"{{MOCK_PLUS_MWS_URL}}"
+							],
+							"path": [
+								"AllergyIntolerance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Keycloak AllergyIntolerance Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.globals.set(\"KEYCLOAK_TOKEN\", jsonData['access_token']);",
+									"",
+									"let CryptoJs = require('crypto-js');",
+									"",
+									"let jwt = jsonData['access_token']",
+									"",
+									"a = jwt.split('.');",
+									"",
+									"//a.forEach(function (val) {",
+									"    var words = CryptoJs.enc.Base64.parse(a[1]);",
+									"    var textString = CryptoJs.enc.Utf8.stringify(words);",
+									"",
+									"    console.log(textString)",
+									"//})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{KC_CLIENT_ID}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{KC_CLIENT_SECRET}}",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "system/AllergyIntolerance.c",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{AUTH_URL}}/realms/hnz-integration/protocol/openid-connect/token",
+							"host": [
+								"{{AUTH_URL}}"
+							],
+							"path": [
+								"realms",
+								"hnz-integration",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AllergyIntolerance Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 201\", function () {",
+									"    pm.expect(pm.response.code).to.equal(201);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData).to.have.property('resourceType');",
+									"    pm.expect(responseData).to.have.property('id');",
+									"    pm.expect(responseData).to.have.property('meta');",
+									"    pm.expect(responseData).to.have.property('contained');",
+									"    pm.expect(responseData).to.have.property('clinicalStatus');",
+									"    pm.expect(responseData).to.have.property('category');",
+									"    pm.expect(responseData).to.have.property('code');",
+									"    pm.expect(responseData).to.have.property('patient');",
+									"    pm.expect(responseData).to.have.property('onsetDateTime');",
+									"    pm.expect(responseData).to.have.property('recorder');",
+									"    pm.expect(responseData).to.have.property('note');",
+									"    pm.expect(responseData).to.have.property('reaction');",
+									"});",
+									"",
+									"pm.test(\"Manifestation array inside reaction object contains expected number of elements\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.reaction).to.be.an('array');",
+									"    responseData.reaction.forEach(reaction => {",
+									"        pm.expect(reaction.manifestation).to.be.an('array').with.length.above(0);",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type is application/fhir+json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/fhir+json\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-forwarded-host",
+								"value": "air.mockplus.health.nz",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"resourceType\" : \"AllergyIntolerance\",\n  \"id\" : \"MwsAllergyIntolerance-2\",\n  \"meta\" : {\n    \"profile\" : [\"http://hl7.org.nz/fhir/StructureDefinition/MwsAllergyIntolerance\"]\n  },\n  \"contained\" : [{\n    \"resourceType\" : \"PractitionerRole\",\n    \"id\" : \"recorder\",\n    \"practitioner\" : {\n      \"reference\" : \"Practitioner/96ZZZZ\"\n    },\n    \"organization\" : {\n      \"reference\" : \"Organization/GZZ999-J\"\n    },\n    \"location\" : [{\n      \"reference\" : \"Location/FZZ999-B\"\n    }]\n  },\n  {\n    \"resourceType\" : \"Patient\",\n    \"id\" : \"patient\",\n    \"meta\" : {\n      \"profile\" : [\"http://hl7.org.nz/fhir/StructureDefinition/MwsPatient\"]\n    },\n    \"identifier\" : [{\n      \"use\" : \"official\",\n      \"system\" : \"https://standards.digital.health.nz/ns/nhi-id\",\n      \"value\" : \"ZHF0848\"\n    }],\n    \"name\" : [{\n      \"family\" : \"Doyle\",\n      \"given\" : [\"Dandre\",\n      \"Alessandra\"]\n    }],\n    \"birthDate\" : \"2020-08-20\"\n  }],\n  \"clinicalStatus\" : {\n    \"coding\" : [{\n      \"system\" : \"http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical\",\n      \"code\" : \"active\"\n    }]\n  },\n  \"category\" : [\"medication\"],\n  \"code\" : {\n    \"coding\" : [{\n      \"system\" : \"https://nzhts.digital.health.nz/fhir/CodeSystem/nzmt\",\n      \"code\" : \"10533431000116105\"\n    }]\n  },\n  \"patient\" : {\n    \"reference\" : \"#patient\"\n  },\n  \"onsetDateTime\" : \"2024-04-15\",\n  \"recorder\" : {\n    \"reference\" : \"#recorder\"\n  },\n  \"note\" : [{\n    \"text\" : \"Information in the note field will not be visible to people viewing the record through legacy HL7 or SOAP interfaces\"\n  }],\n  \"reaction\" : [{\n    \"id\" : \"1\",\n    \"manifestation\" : [{\n      \"coding\" : [{\n        \"system\" : \"http://snomed.info/sct\",\n        \"code\" : \"116289008\"\n      }]\n    }]\n  }]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MOCK_PLUS_MWS_URL}}/AllergyIntolerance",
+							"host": [
+								"{{MOCK_PLUS_MWS_URL}}"
+							],
+							"path": [
+								"AllergyIntolerance"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health Provider Index",
+			"item": [
+				{
+					"name": "Keycloak Practitioner Read & Search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.globals.set(\"KEYCLOAK_TOKEN\", jsonData['access_token']);",
+									"",
+									"let CryptoJs = require('crypto-js');",
+									"",
+									"let jwt = jsonData['access_token']",
+									"",
+									"a = jwt.split('.');",
+									"",
+									"//a.forEach(function (val) {",
+									"    var words = CryptoJs.enc.Base64.parse(a[1]);",
+									"    var textString = CryptoJs.enc.Utf8.stringify(words);",
+									"",
+									"    console.log(textString)",
+									"//})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{KC_CLIENT_ID}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{KC_CLIENT_SECRET}}",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "system/Practitioner.r system/Practitioner.s system/Location.r system/Location.s",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{AUTH_URL}}/realms/hnz-integration/protocol/openid-connect/token",
+							"host": [
+								"{{AUTH_URL}}"
+							],
+							"path": [
+								"realms",
+								"hnz-integration",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Practitioner",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.to.have.status(200));",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/fhir+json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/fhir+json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData).to.have.property('resourceType');",
+									"    pm.expect(responseData).to.have.property('id');",
+									"    pm.expect(responseData).to.have.property('meta');",
+									"    pm.expect(responseData).to.have.property('type');",
+									"    pm.expect(responseData).to.have.property('total');",
+									"    pm.expect(responseData).to.have.property('link');",
+									"    pm.expect(responseData).to.have.property('entry');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the lastUpdated field in the meta object is in a valid date format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.meta.lastUpdated).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{3})?Z$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Entry array is present\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.have.property(\"entry\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-forwarded-host",
+								"value": "mws.mockplus.health.nz",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MOCK_PLUS_HPI_URL}}/Practitioner",
+							"host": [
+								"{{MOCK_PLUS_HPI_URL}}"
+							],
+							"path": [
+								"Practitioner"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Location",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.to.have.status(200));",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/fhir+json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/fhir+json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData).to.have.property('resourceType');",
+									"    pm.expect(responseData).to.have.property('id');",
+									"    pm.expect(responseData).to.have.property('meta');",
+									"    pm.expect(responseData).to.have.property('type');",
+									"    pm.expect(responseData).to.have.property('total');",
+									"    pm.expect(responseData).to.have.property('link');",
+									"    pm.expect(responseData).to.have.property('entry');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the lastUpdated field in the meta object is in a valid date format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.meta.lastUpdated).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{3})?Z$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Entry array is present\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.have.property(\"entry\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-forwarded-host",
+								"value": "mws.mockplus.health.nz",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MOCK_PLUS_HPI_URL}}/Location",
+							"host": [
+								"{{MOCK_PLUS_HPI_URL}}"
+							],
+							"path": [
+								"Location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Practitioner TestThree",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData).to.have.property('identifier');",
+									"    pm.expect(responseData).to.have.property('meta');",
+									"    pm.expect(responseData).to.have.property('name');",
+									"    pm.expect(responseData).to.have.property('qualification');",
+									"    pm.expect(responseData).to.have.property('resourceType');",
+									"    pm.expect(responseData).to.have.property('extension');",
+									"    pm.expect(responseData).to.have.property('id');",
+									"    pm.expect(responseData).to.have.property('communication');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/fhir+json\", function () {",
+									"  pm.expect(pm.response.headers.get(\"Content-Type\")).to.equal(\"application/fhir+json; charset=utf-8\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Identifier array is present and not empty\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.identifier).to.exist.and.to.be.an('array').and.to.have.lengthOf.at.least(1);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Name field has non-empty 'given' and 'family' properties\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.name).to.exist.and.to.be.an('array').to.have.lengthOf.at.least(1);",
+									"",
+									"  responseData.name.forEach(function(nameObj) {",
+									"    pm.expect(nameObj.given).to.exist.and.to.be.an('array').to.have.lengthOf.at.least(1, \"Given name should not be empty\");",
+									"    pm.expect(nameObj.family).to.exist.and.to.be.a('string').to.have.lengthOf.at.least(1, \"Family name should not be empty\");",
+									"  });",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-forwarded-host",
+								"value": "mws.mockplus.health.nz",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MOCK_PLUS_HPI_URL}}/Practitioner/94ZZZC",
+							"host": [
+								"{{MOCK_PLUS_HPI_URL}}"
+							],
+							"path": [
+								"Practitioner",
+								"94ZZZC"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "National Health Index",
+			"item": [
+				{
+					"name": "Keycloak Patient Read & Search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.globals.set(\"KEYCLOAK_TOKEN\", jsonData['access_token']);",
+									"",
+									"let CryptoJs = require('crypto-js');",
+									"",
+									"let jwt = jsonData['access_token']",
+									"",
+									"a = jwt.split('.');",
+									"",
+									"//a.forEach(function (val) {",
+									"    var words = CryptoJs.enc.Base64.parse(a[1]);",
+									"    var textString = CryptoJs.enc.Utf8.stringify(words);",
+									"",
+									"    console.log(textString)",
+									"//})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{KC_CLIENT_ID}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{KC_CLIENT_SECRET}}",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "system/Patient.r system/Patient.s",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{AUTH_URL}}/realms/hnz-integration/protocol/openid-connect/token",
+							"host": [
+								"{{AUTH_URL}}"
+							],
+							"path": [
+								"realms",
+								"hnz-integration",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NHI Patient",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    const requiredFields = [",
+									"        \"birthDate\",",
+									"        \"identifier\",",
+									"        \"meta\",",
+									"        \"address\",",
+									"        \"name\",",
+									"        \"gender\",",
+									"        \"resourceType\",",
+									"        \"generalPractitioner\",",
+									"        \"contained\",",
+									"        \"extension\",",
+									"        \"id\"",
+									"    ];",
+									"",
+									"    requiredFields.forEach(field => {",
+									"        pm.expect(responseData).to.have.property(field);",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content type is application/fhir+json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/fhir+json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Identifier array is present and contains expected number of elements\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.identifier).to.exist.and.to.be.an('array');",
+									"    pm.expect(responseData.identifier).to.have.lengthOf(1);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Given and family in name object are non-empty strings\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.name).to.be.an('array').and.to.have.lengthOf.at.least(1);",
+									"    responseData.name.forEach(function(nameObj) {",
+									"        pm.expect(nameObj.given).to.be.an('array').and.to.have.lengthOf.at.least(1, \"Given name should not be empty\");",
+									"        pm.expect(nameObj.family).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Family name should not be empty\");",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-forwarded-host",
+								"value": "nhi.mockplus.health.nz",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MOCK_PLUS_NHI_URL}}/Patient/ZZZ0016",
+							"host": [
+								"{{MOCK_PLUS_NHI_URL}}"
+							],
+							"path": [
+								"Patient",
+								"ZZZ0016"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "National Enrollment Service",
+			"item": [
+				{
+					"name": "Keycloak EpisodeOfCare Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.globals.set(\"KEYCLOAK_TOKEN\", jsonData['access_token']);",
+									"",
+									"let CryptoJs = require('crypto-js');",
+									"",
+									"let jwt = jsonData['access_token']",
+									"",
+									"a = jwt.split('.');",
+									"",
+									"//a.forEach(function (val) {",
+									"    var words = CryptoJs.enc.Base64.parse(a[1]);",
+									"    var textString = CryptoJs.enc.Utf8.stringify(words);",
+									"",
+									"    console.log(textString)",
+									"//})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{KC_CLIENT_ID}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{KC_CLIENT_SECRET}}",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "system/EpisodeOfCare.c",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{AUTH_URL}}/realms/hnz-integration/protocol/openid-connect/token",
+							"host": [
+								"{{AUTH_URL}}"
+							],
+							"path": [
+								"realms",
+								"hnz-integration",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Keycloak EpisodeOfCare Read & Search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"pm.globals.set(\"KEYCLOAK_TOKEN\", jsonData['access_token']);",
+									"",
+									"let CryptoJs = require('crypto-js');",
+									"",
+									"let jwt = jsonData['access_token']",
+									"",
+									"a = jwt.split('.');",
+									"",
+									"//a.forEach(function (val) {",
+									"    var words = CryptoJs.enc.Base64.parse(a[1]);",
+									"    var textString = CryptoJs.enc.Utf8.stringify(words);",
+									"",
+									"    console.log(textString)",
+									"//})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{KC_CLIENT_ID}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{KC_CLIENT_SECRET}}",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "system/EpisodeOfCare.r system/EpisodeOfCare.s",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{AUTH_URL}}/realms/hnz-integration/protocol/openid-connect/token",
+							"host": [
+								"{{AUTH_URL}}"
+							],
+							"path": [
+								"realms",
+								"hnz-integration",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{KEYCLOAK_TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"// Include Request-Context on all requests",
+					"pm.request.headers.add({key: 'Request-Context', value: pm.environment.get(\"REQUEST_CONTEXT\") });",
+					"//console.log(\"REQUEST_CONTEXT = \" + pm.environment.get(\"REQUEST_CONTEXT\"));",
+					"",
+					"pm.request.headers.add({key: 'userid', value: pm.environment.get(\"USER_ID\") });",
+					"//console.log(\"USER_ID = \" + pm.environment.get(\"USER_ID\"));",
+					"",
+					"// pm.environment.set(\"REQUEST_CONTEXT\",pm.environment.get(\"REQUEST_CONTEXT\"));"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
