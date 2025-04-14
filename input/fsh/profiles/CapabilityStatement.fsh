@@ -95,6 +95,13 @@ Usage: #definition
 * type = false
 * instance = false
 
+* parameter[+].name = "api"
+* parameter[=].use = #in
+* parameter[=].min = 1
+* parameter[=].max = "1"
+* parameter[=].type = #string
+* parameter[=].documentation = "The short name of the API being seeded (e.g. 'sdhr', 'air')."
+
 * parameter[0].name = #return
 * parameter[=].use = #out
 * parameter[=].min = 1
