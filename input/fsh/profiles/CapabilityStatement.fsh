@@ -95,7 +95,7 @@ Usage: #definition
 * type = false
 * instance = false
 
-* parameter[+].name = "api"
+* parameter[+].name = #api
 * parameter[=].use = #in
 * parameter[=].min = 1
 * parameter[=].max = "1"
