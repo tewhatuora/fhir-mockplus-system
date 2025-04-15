@@ -58,7 +58,7 @@ Usage: #definition
 * rest.operation[+].name = "seed"
 * rest.operation[=].definition = Canonical(SeedOperation)
 * rest.operation[+].name = "provisionDashboard"
-* rest.operation[=].definition = Canonical(ProvisioninDashboardOperation)
+* rest.operation[=].definition = Canonical(ProvisionDashboardOperation)
 
 Instance: ClearOperation
 InstanceOf: OperationDefinition
@@ -109,7 +109,7 @@ Usage: #definition
 * parameter[=].documentation = "Result of the seed operation."
 * parameter[=].type = #OperationOutcome
 
-Instance: ProvisioninDashboardOperation
+Instance: ProvisionDashboardOperation
 InstanceOf: OperationDefinition
 Usage: #definition
 
