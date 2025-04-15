@@ -102,7 +102,7 @@ Usage: #definition
 * parameter[=].type = #string
 * parameter[=].documentation = "The short name of the API being seeded (e.g. 'sdhr', 'air')."
 
-* parameter[0].name = #return
+* parameter[+].name = #return
 * parameter[=].use = #out
 * parameter[=].min = 1
 * parameter[=].max = "1"
